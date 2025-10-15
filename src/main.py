@@ -1,22 +1,26 @@
-import pandas_gbq
+from pyspark.sql import SparkSession
 
 PROJECT_ID = "central-catcher-471811-s3"
 
 def update_dim_merchants_table(requests):
+    spark = SparkSession \
+        .builder \
+        .appName('spark-bigquery-demo') \
+        .config('spark.jars', '/Users/vasomtsituri/PycharmProjects/terraform-tasks-in-gcp/spark-bigquery-latest_2.12.jar') \
+        .getOrCreate()
 
+    # Use the Cloud Storage bucket for temporary BigQuery export data used
+    # by the connector.
+    bucket = 'bog_reports_tmp_gcs_bucket'
+    spark.conf.set('temporaryGcsBucket', bucket)
 
-    # Your SQL query to fetch data from BigQuery
-    sql_query = """
-                SELECT
-                    *
-                FROM `central-catcher-471811-s3.dimensions.dim_merchants`
-                """
+    # Load data from BigQuery.
+    words = spark.read.format('bigquery') \
+        .load('central-catcher-471811-s3.dimensions.dim_merchants') \
 
-    df = pandas_gbq.read_gbq(sql_query, project_id=PROJECT_ID)
-    print(f"Data (with shape: {df.shape}) loaded successfully:")
-    print(df.head())
+    words.printSchema()
+    words.show()
 
-    return 'OK'
 
 if __name__ == '__main__':
     update_dim_merchants_table('some')
