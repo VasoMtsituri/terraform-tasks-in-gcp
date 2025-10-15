@@ -20,7 +20,3 @@ def update_dim_merchants_table(requests):
 
     words.printSchema()
     words.show()
-
-
-if __name__ == '__main__':
-    update_dim_merchants_table('some')
