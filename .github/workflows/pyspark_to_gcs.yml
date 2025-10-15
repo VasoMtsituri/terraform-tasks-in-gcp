@@ -27,5 +27,5 @@ jobs:
 
     - name: Deploy via GCS
       run: |
-        gcloud auth configure-docker
+        gcloud auth application-default login
         gsutil -m cp src/main_prod.py gs://amex-reports/
