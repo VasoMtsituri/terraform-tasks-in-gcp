@@ -22,4 +22,5 @@ df = first_merchant.withColumn("batch_timestamp", current_date())
 
 df.write.format('bigquery') \
   .option('table', f'{PROJECT_ID}.dimensions.dim_merchants_preview_from_dataproc') \
+  .mode('append') \
   .save()
