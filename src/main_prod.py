@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import current_date
+from pyspark.sql.functions import current_timestamp
 
 PROJECT_ID = 'central-catcher-471811-s3'
 GCS_BUCKET = 'bog_reports_tmp_gcs_bucket'
@@ -18,7 +18,7 @@ merchants = spark.read.format('bigquery') \
     .load(f'{PROJECT_ID}.dimensions.dim_merchants') \
 
 first_merchant = merchants.limit(1)
-df = first_merchant.withColumn("batch_timestamp", current_date())
+df = first_merchant.withColumn("batch_timestamp", current_timestamp())
 
 df.write.format('bigquery') \
   .option('table', f'{PROJECT_ID}.dimensions.dim_merchants_preview_from_dataproc') \
