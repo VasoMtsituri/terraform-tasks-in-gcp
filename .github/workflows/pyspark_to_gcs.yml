@@ -26,4 +26,4 @@ jobs:
         project_id: central-catcher-471811-s3
 
     - name: Deploy via GCS
-      run: gsutil -m cp /Users/vasomtsituri/PycharmProjects/terraform-tasks-in-gcp/src/main_prod.py gs://amex-reports/
+      run: gsutil -m cp src/main_prod.py gs://amex-reports
