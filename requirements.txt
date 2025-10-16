@@ -2,3 +2,4 @@ pyspark==3.5.0
 google-cloud-dataproc==5.22.0
 Office365-REST-Python-Client==2.6.2
 google-cloud-secret-manager==2.25.0
+apache-airflow-providers-google==17.2.0
