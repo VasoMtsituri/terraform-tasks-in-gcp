@@ -1,0 +1,5 @@
+pandas==2.3.3
+google-genai==1.45.0
+google-crc32c==1.7.1
+google-cloud-secret-manager==2.25.0
+pandas-gbq==0.29.2
