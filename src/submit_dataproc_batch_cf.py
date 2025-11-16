@@ -1,4 +1,3 @@
-import os
 import json
 
 import functions_framework
@@ -51,6 +50,8 @@ def hello_gcs(cloud_event):
     print(f"Updated: {updated}")
 
     batch_id = f"spark-custom-image-job-{event_id}"
+    args = {"args": [f"--input-file={data['name']}"]}
+    SPARK_BATCH_CONFIG["pyspark_batch"].update(args)
 
     # 4. Initialize the Dataproc client and submit the job
     try:
