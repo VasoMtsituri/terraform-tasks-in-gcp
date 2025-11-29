@@ -1,0 +1,35 @@
+main:
+  params: [event]
+  steps:
+    - log_event:
+        call: sys.log
+        args:
+          text: ${event}
+          severity: INFO
+    - extract_data:
+        assign:
+          - bucket_name: ${event.data.bucket}
+          - file_name: ${event.data.name}
+          - generation_id: ${event.data.generation}  # <--- Capture this
+    - call_extract_function:
+        call: http.post
+        args:
+          url: https://extract-gcs-metadata-947374667312.us-central1.run.app
+          auth:
+            type: OIDC
+          body:
+            bucket: ${bucket_name}
+            filename: ${file_name}
+            generation: ${generation_id}  # <--- Pass it here
+        result: function_response
+    - call_second_function:
+        call: http.post
+        args:
+          url: https://cf-for-workflow-submit-batches-947374667312.us-central1.run.app
+          auth:
+            type: OIDC
+          body:
+            raw_metadata: ${function_response.body}
+        result: function_response_final
+    - return_result:
+        return: ${function_response_final.body}

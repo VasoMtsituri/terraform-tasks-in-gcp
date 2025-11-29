@@ -1,0 +1,4 @@
+1)Logs Writer
+2)Service Account User
+3)Workflow Invoker
+4)Cloud Run Invoker
